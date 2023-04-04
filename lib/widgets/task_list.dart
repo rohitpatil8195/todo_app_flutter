@@ -1,50 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:todoey/widgets/task_tile.dart';
-
 import '../models/task.dart';
-import '../screens/tasks_screen.dart';
+import 'package:provider/provider.dart';
 
-// class TaskList extends StatelessWidget {
-//   const TaskList({
-//     super.key,
-//   });
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return ListView(
-//       padding: const EdgeInsets.all(10),
-//       children:   [
-//         TaskTile(),
-//         TaskTile(),
-//         TaskTile(),
-//       ],
-//     );
-//   }
-// }
+import '../models/task_data.dart';
 
 
-class TaskList extends StatefulWidget {
-  final List<Task> tasks;
-   TaskList(this.tasks);
+
+
+class   TaskList extends StatelessWidget  {
+  const TaskList({super.key});
   @override
-  State<TaskList> createState() => _TaskListState();
-}
-
-class _TaskListState extends State<TaskList> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(itemBuilder: (context,index){
-        return TaskTile(
-            widget.tasks[index].isDone,
-          widget.tasks[index].name,
-            (checkBoxCallBackVal){
-            setState(() {
-              widget.tasks[index].toggleDone();
-            });
+
+        return Consumer<TaskData>(
+          builder: (BuildContext context, taskData, Widget? child) {
+            return ListView.builder(itemBuilder: (context,index){
+              final taskItem=taskData.tasks[index];
+            return TaskTile(
+              isChecked:taskItem.isDone,
+            taskTitle:taskItem.name,
+              checkBoxCallBack:(checkBoxCallBackVal){
+           taskData.updateTaskState(taskItem);
+                },
+               //  (longPressCallback):{
+               //  print('dd');
+               // taskData.deleteTask(index);
+               //  }
+              longPressCallback: () {
+                taskData.deleteTask(index);
+              },
+            );
           },
+              itemCount: taskData.taskCount,);
+    },
         );
-    },itemCount: widget.tasks.length,);
+
     // return ListView(
     //   padding: const EdgeInsets.all(10),
     //   children:   [

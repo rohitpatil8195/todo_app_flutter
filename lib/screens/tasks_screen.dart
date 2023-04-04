@@ -1,24 +1,13 @@
 
 import 'package:flutter/material.dart';
-
-import '../models/task.dart';
+import 'package:todoey/models/task_data.dart';
 import '../widgets/task_list.dart';
 import 'add_task_screen.dart';
+import 'package:provider/provider.dart';
 
- class TasksScreen extends StatefulWidget {
-
+ class TasksScreen extends StatelessWidget {
     const TasksScreen({Key? key}) : super(key: key);
 
-  @override
-  State<TasksScreen> createState() => _TasksScreenState();
-}
-
-class _TasksScreenState extends State<TasksScreen> {
-    List<Task> tasks=[
-
-    ];
-
-// Widget buildBottomSheet;
    @override
    Widget build(BuildContext context) {
      return  Scaffold(
@@ -37,12 +26,7 @@ class _TasksScreenState extends State<TasksScreen> {
                builder: (context) => SingleChildScrollView(
                    child:Container(
                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                     child: AddTaskScreen((taskText){
-                       setState(() {
-                         tasks.add(Task(name: taskText));
-                       });
-                       Navigator.pop(context);
-                   }),
+                     child: AddTaskScreen(),
                    )
                )
            );
@@ -71,7 +55,7 @@ class _TasksScreenState extends State<TasksScreen> {
                       color: Colors.white
                    ),
                  ),
-                 Text('${tasks.length} Tasks',style: const TextStyle(
+                 Text('${Provider.of<TaskData>(context).taskCount} Tasks',style: const TextStyle(
                    color: Colors.white,
                    fontSize: 18
                  ),),
@@ -90,7 +74,7 @@ class _TasksScreenState extends State<TasksScreen> {
                        topLeft: Radius.circular(10)
                    )
                ),
-               child:  TaskList(tasks),
+               child:  TaskList(),
              ),
            )
          ],
@@ -100,7 +84,4 @@ class _TasksScreenState extends State<TasksScreen> {
 }
 
 
-//
-// setState(() {
-// tasks.add(Task(name: taskText));
-// });
+

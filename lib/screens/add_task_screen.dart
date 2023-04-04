@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todoey/models/task_data.dart';
 import 'package:todoey/widgets/task_list.dart';
 
 import '../models/task.dart';
@@ -6,9 +8,9 @@ import '../models/task.dart';
 
 class AddTaskScreen extends StatelessWidget {
    late String taskText;
-  final Function(String) addTaskClBack;
-
-   AddTaskScreen(this.addTaskClBack, {super.key});
+  // void Function(String) addTaskClBack;
+  //
+  //  AddTaskScreen(this.addTaskClBack, {super.key});
 
    // void fun(){
    //   addTaskClBack(taskText);
@@ -52,7 +54,8 @@ class AddTaskScreen extends StatelessWidget {
                   elevation: 0,
                 ),
                 onPressed: (){
-                  addTaskClBack(taskText);
+                  Provider.of<TaskData>(context, listen: false).addTaskMethod(taskText);
+                  Navigator.pop(context);
                   },
                 child: const Text("Add"),
               ),
